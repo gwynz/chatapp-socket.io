@@ -2,10 +2,15 @@
   "name": "chatapp-socket.io",
   "version": "1.0.0",
   "description": "demo using socketio",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon chatapp-server/server.js"
   },
   "author": "gwynz",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
 }
