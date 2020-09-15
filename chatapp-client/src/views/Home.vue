@@ -22,7 +22,7 @@
                 <b-input-group-text slot="prepend" v-else>n/a</b-input-group-text>
                 <b-form-input v-model="message" v-on:keyup.enter="sendMessage"></b-form-input>
                 <b-input-group-append>
-                  <b-button variant="danger" @click="sendMessage">Send message</b-button>
+                  <b-button variant="danger" @click.prevent="sendMessage">Send message</b-button>
                 </b-input-group-append>
               </b-input-group>
             </div>
@@ -42,6 +42,7 @@ import HeaderNavigation from "@/components/ui-modules/header.vue";
 import ChatRoom from "@/components/ui-modules/chat-room.vue";
 import ChatMessages from "@/components/ui-modules/chat-messages.vue";
 import ChatOnlinePeople from "@/components/ui-modules/chat-online-people.vue";
+const io = require("socket.io-client");
 export default {
   name: "Chat",
   components: {
@@ -50,13 +51,41 @@ export default {
     ChatMessages,
     ChatOnlinePeople,
   },
+  data() {
+    return {
+      message: "",
+      socket: io("ws://localhost:3000", {
+        transports: ["websocket"],
+      }),
+      messages: [],
+      users: [],
+      username: "Anonymous",
+    };
+  },
+  mounted() {
+    this.socket.on("message", (socket) => {
+      this.messages = socket.messages;
+    });
+  },
+  methods: {
+    sendMessage() {
+      if (this.message) {
+        this.socket.emit("send_message", {
+          user: this.username,
+          msg: this.message,
+          color: "#000000",
+        });
+        this.message = "";
+      }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 $header-nav-height: 58px;
 $title-chat-height: 10px;
-$chat-input-height: 60px;
+$chat-input-height: 80px;
 $chat-view-sticky-height: $chat-input-height + $header-nav-height +
   $title-chat-height;
 .chat-content-messages {
@@ -76,6 +105,7 @@ $chat-view-sticky-height: $chat-input-height + $header-nav-height +
   .chat-input {
     .chat-input__box {
       margin-top: 15px;
+      margin-bottom: 15px;
     }
   }
 }

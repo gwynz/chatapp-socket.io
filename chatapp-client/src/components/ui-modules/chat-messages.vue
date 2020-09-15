@@ -5,7 +5,7 @@
         v-if="val['type'] === 'system'"
         :style="'background: '+ val['color'] +'; padding: 5px;'"
       >System: {{val['msg']}}</div>
-      <template v-else-if="val['type'] === 'normal'">
+      <template>
         <b-img
           slot="aside"
           blank
@@ -17,7 +17,6 @@
         <h5 class="mt-0 mb-1">{{val['user']}}</h5>
         <p class="mb-0">{{val['msg']}}</p>
       </template>
-      <div v-else>Wrong type for this messages</div>
     </b-media>
   </ul>
 </template>
