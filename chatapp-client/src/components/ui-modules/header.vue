@@ -6,7 +6,7 @@
       <b-navbar-nav class="ml-auto">
         <b-navbar-nav right>
           <b-nav-item>
-            <em>guest</em>
+            <em>{{userData}}</em>
           </b-nav-item>
         </b-navbar-nav>
       </b-navbar-nav>

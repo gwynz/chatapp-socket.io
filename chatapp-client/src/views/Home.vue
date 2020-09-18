@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderNavigation :userData="user" />
+    <HeaderNavigation :userData="user.username" />
     <b-container fluid>
       <b-row class="pt-4">
         <b-col md="3" xl="2">
@@ -18,9 +18,9 @@
           <div class="chat-input">
             <div class="chat-input__box">
               <b-input-group>
-                <b-input-group-text slot="prepend" v-if="user">{{user['user_name']}}</b-input-group-text>
+                <b-input-group-text slot="prepend" v-if="user">{{user['username']}}</b-input-group-text>
                 <b-input-group-text slot="prepend" v-else>n/a</b-input-group-text>
-                <b-form-input v-model="message" v-on:keyup.enter="sendMessage"></b-form-input>
+                <b-form-input v-model="currentMessage" v-on:keyup.enter="sendMessage"></b-form-input>
                 <b-input-group-append>
                   <b-button variant="danger" @click.prevent="sendMessage">Send message</b-button>
                 </b-input-group-append>
@@ -30,7 +30,7 @@
         </b-col>
         <b-col md="3" xl="2">
           <h2>Online people</h2>
-          <ChatOnlinePeople />
+          <ChatOnlinePeople :userList="userOnlines" />
         </b-col>
       </b-row>
     </b-container>
@@ -53,18 +53,30 @@ export default {
   },
   data() {
     return {
-      message: "",
       socket: io("ws://localhost:3000", {
         transports: ["websocket"],
       }),
+      currentMessage: "",
       messages: [],
-      users: [],
-      username: "Anonymous",
+      user: {},
+      userOnlines: [],
+      room: {},
+      availableRooms: [],
     };
   },
-  mounted() {
+  created() {
     this.socket.on("message", (socket) => {
       this.messages = socket.messages;
+    });
+    this.socket.on("user_data", (socket) => {
+      this.user = socket.user;
+    });
+    this.socket.on("user_onlines", (socket) => {
+      this.userOnlines = socket.userOnlines;
+      console.log(this.userOnlines);
+    });
+    this.socket.on("get_rooms", (socket) => {
+      this.available_rooms = socket.rooms;
     });
   },
   methods: {

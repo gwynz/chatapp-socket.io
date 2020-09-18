@@ -1,7 +1,7 @@
 <template>
   <b-list-group>
     <b-list-group-item
-      v-for="(r, inx) in this.availableRooms"
+      v-for="(r, inx) in availableRooms"
       :key="inx"
       @click="go_to_room(r['_id']['$oid'])"
       :active="selected_room === r['_id']['$oid']"

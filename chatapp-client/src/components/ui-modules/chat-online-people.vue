@@ -4,7 +4,7 @@
       v-for="(val, inx) in userList"
       :key="inx"
       v-b-tooltip.hover
-      :title="val.user_name"
+      :title="val.username"
       v-bind="onlinePeopleProps"
       rounded="circle"
     ></b-img>
