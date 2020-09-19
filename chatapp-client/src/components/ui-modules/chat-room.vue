@@ -7,7 +7,7 @@
       :active="selected_room.id === r.id"
       type="dark"
       variant="dark"
-      style="cursor:pointer"
+      style="cursor:pointer; color:black"
     >
       {{r['name']}}
       <b-badge pill>{{r.online}}</b-badge>
@@ -35,6 +35,7 @@ export default {
     goToRoom(room) {
       console.log("user change room ", this.room, "=>", room);
       if (this.selected_room.id != room.id) this.$emit("joinRoom", room);
+      this.$router.push({ query: { q: room._id } });
     },
   },
 };

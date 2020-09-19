@@ -2,14 +2,14 @@
   <ul class="list-unstyled">
     <b-media tag="li" class="my-4" v-for="(val, inx) in this.messages" :key="inx">
       <div
-        v-if="val['type'] === 'system'"
-        :style="'background: '+ val['color'] +'; padding: 5px;'"
+        v-if="val['user'] === 'System'"
+        :style="'background: '+ val['color'] +'; padding: 5px; color:black;'"
       >System: {{val['msg']}}</div>
-      <template>
+      <template v-else>
         <b-img
           slot="aside"
           blank
-          :blank-color="val['color']"
+          blank-color="gray"
           width="64"
           alt="Placeholder - username"
           rounded="circle"

@@ -22,7 +22,11 @@
                 <b-input-group-text slot="prepend" v-else>n/a</b-input-group-text>
                 <b-form-input v-model="currentMessage" v-on:keyup.enter="sendMessage"></b-form-input>
                 <b-input-group-append>
-                  <b-button variant="danger" @click.prevent="sendMessage">Send message</b-button>
+                  <b-button
+                    variant="danger"
+                    @click.prevent="sendMessage"
+                    :disabled="!currentMessage"
+                  >Send message</b-button>
                 </b-input-group-append>
               </b-input-group>
             </div>
@@ -110,6 +114,11 @@ $chat-view-sticky-height: $chat-input-height + $header-nav-height +
 .chat-content-messages {
   height: calc(100% - 55px);
   overflow: auto;
+  display: flex;
+  align-items: flex-end;
+  ul {
+    width: 100%;
+  }
 }
 .chat-content {
   border-left: 1px solid rgba(0, 0, 0, 0.05);

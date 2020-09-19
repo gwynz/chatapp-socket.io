@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <b-img
-      v-for="(val, inx) in userList"
-      :key="inx"
-      v-b-tooltip.hover
-      :title="val.username"
-      v-bind="onlinePeopleProps"
-      rounded="circle"
-    ></b-img>
+  <div class="onlinePeople">
+    <div :key="inx" v-for="(val, inx) in userList">
+      <b-img v-b-tooltip.hover :title="val.username" v-bind="onlinePeopleProps" rounded="circle"></b-img>
+      <span>{{val.username}}</span>
+    </div>
   </div>
 </template>
 
@@ -23,7 +19,7 @@ export default {
     return {
       onlinePeopleProps: {
         blank: true,
-        blankColor: "#777",
+        blankColor: "gray",
         width: 50,
         height: 50,
         class: "online-people-icon",
@@ -37,5 +33,9 @@ export default {
 .online-people-icon {
   margin-right: 5px;
   margin-bottom: 5px;
+}
+.onlinePeople {
+  display: flex;
+  flex-direction: column;
 }
 </style>
