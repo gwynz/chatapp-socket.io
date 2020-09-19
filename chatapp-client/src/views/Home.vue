@@ -5,7 +5,7 @@
       <b-row class="pt-4">
         <b-col md="3" xl="2">
           <h2>Chat rooms</h2>
-          <ChatRoom />
+          <ChatRoom :availableRooms="availableRooms" :room="selectedRoom" @joinRoom="joinRoom" />
         </b-col>
         <b-col class="chat-content">
           <div class="chat-messages">
@@ -62,6 +62,7 @@ export default {
       userOnlines: [],
       room: {},
       availableRooms: [],
+      selectedRoom: {},
     };
   },
   created() {
@@ -76,19 +77,25 @@ export default {
       console.log(this.userOnlines);
     });
     this.socket.on("get_rooms", (socket) => {
-      this.available_rooms = socket.rooms;
+      this.availableRooms = socket.rooms;
+    });
+    this.socket.on("get_selected_room", (socket) => {
+      this.selectedRoom = socket.selectedRoom;
     });
   },
   methods: {
     sendMessage() {
-      if (this.message) {
+      if (this.currentMessage) {
         this.socket.emit("send_message", {
           user: this.username,
-          msg: this.message,
+          msg: this.currentMessage,
           color: "#000000",
         });
-        this.message = "";
+        this.currentMessage = "";
       }
+    },
+    joinRoom(data) {
+      this.socket.emit("join_room", data);
     },
   },
 };

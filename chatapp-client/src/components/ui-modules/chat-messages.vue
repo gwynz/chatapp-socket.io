@@ -12,6 +12,7 @@
           :blank-color="val['color']"
           width="64"
           alt="Placeholder - username"
+          rounded="circle"
         ></b-img>
 
         <h5 class="mt-0 mb-1">{{val['user']}}</h5>

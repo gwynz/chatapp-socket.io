@@ -3,11 +3,14 @@
     <b-list-group-item
       v-for="(r, inx) in availableRooms"
       :key="inx"
-      @click="go_to_room(r['_id']['$oid'])"
-      :active="selected_room === r['_id']['$oid']"
+      @click="goToRoom(r)"
+      :active="selected_room.id === r.id"
+      type="dark"
+      variant="dark"
+      style="cursor:pointer"
     >
       {{r['name']}}
-      <b-badge variant="dark" pill>{{r['online']}}</b-badge>
+      <b-badge pill>{{r.online}}</b-badge>
     </b-list-group-item>
   </b-list-group>
 </template>
@@ -29,13 +32,17 @@ export default {
     },
   },
   methods: {
-    go_to_room(room) {
+    goToRoom(room) {
       console.log("user change room ", this.room, "=>", room);
-      this.$emit("join_room", room);
+      if (this.selected_room.id != room.id) this.$emit("joinRoom", room);
     },
   },
 };
 </script>
 
 <style scoped>
+.list-group-item.active {
+  background-color: pink;
+  border-color: pink;
+}
 </style>
